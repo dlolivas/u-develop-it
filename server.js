@@ -1,11 +1,13 @@
-const mysql = require ('mysql2');
 const express = require('express');
+const mysql = require ('mysql2');
+const inputCheck = require('./utils/inputCheck');
+
 
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 
-const inputCheck = require('./utils/inputCheck');
+
 
 //Express middleware
 app.use(express.urlencoded({ extended: false }));
@@ -51,18 +53,6 @@ const db = mysql.createConnection(
     console.log(result);
 });
 */
-
-//CREATE A CANDIDATE
-const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected)
-VALUES (? , ?, ?, ?)`;
-const params = [1, 'Ronald' , 'Firbank', 1];
-
-db.query(sql, params, (err, result) => {
-    if (err) {
-        console.log(err);
-    }
-    console.log(result);
-});
 
 
 // get ALL CANDIDATES with get routes 
@@ -148,7 +138,21 @@ app.post('/api/candidate' , ({ body }, res) => { // api endpoint /api/candidate
     });
 });
 
+//CREATE A CANDIDATE 
+/*const sql = `INSERT INTO candidates (id, first_name, last_name, industry_connected)
+VALUES (? , ?, ?, ?)`;
+const params = [1, 'Ronald' , 'Firbank', 1];
 
+db.query(sql, params, (err, result) => {
+    if (err) {
+        console.log(err);
+    }
+    console.log(result);
+});
+*/
+
+
+// DEAFULT RESPONSE FOR ANY OTHER REQUEST NOT FOUND
 app.use((req, res) => {
     res.status(404).end();
 });
