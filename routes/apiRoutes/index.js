@@ -6,5 +6,7 @@ const router = express.Router();
 router.use(require('./candidateRoutes'));
 //add voter routes
 router.use(require('./voterRoutes'));
+//add vote/routes
+router.use(require('./voteRoutes'));
 
 module.exports = router;
