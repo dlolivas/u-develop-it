@@ -57,7 +57,11 @@ const db = mysql.createConnection(
 
 // get ALL CANDIDATES with get routes 
 app.get('/api/candidates' , (req, res) => {//api endpoint
-    const sql = `SELECT * FROM candidates `;
+    const sql = `SELECT candidates. * , parties.name
+                AS party_name
+                FROM candidates
+                LEFT JOIN parties
+                ON candidates.party_id = parties.id`;
 
     db.query(sql, (err, rows) => {
         if (err) {
@@ -74,7 +78,12 @@ app.get('/api/candidates' , (req, res) => {//api endpoint
 
 //GET A SINGLE CANDIDATE WITH API ENDPOINT
 app.get('/api/candidate/:id' , (req, res) => {//api endpoint has an :id which specify which candidate we'll select from the database
-    const sql = `SELECT * FROM candidates WHERE id = ? `; // mention id 
+    const sql = `SELECT candidates.*, parties.name 
+              AS party_name 
+              FROM candidates 
+              LEFT JOIN parties 
+              ON candidates.party_id = parties.id 
+             WHERE candidates.id = ?`;; // mention id 
     const params = [req.params.id];// we'll assign the captured value populated in the re.params obj with the key id to params. Params is assigned as an array with a single element req.params.id
 
     db.query(sql, params, (err, row) => {// the database then query the candidates table with this id and retrive the row specififed bcuz params can be accepted in the database call as an array. 
